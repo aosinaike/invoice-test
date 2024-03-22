@@ -55,17 +55,23 @@ public class InvoiceController {
         doc.isUpdateFields(true);
 
         //save file in pdf format
-        doc.saveToFile("src/"+invoiceRequest.id()+".pdf", FileFormat.PDF);
+        doc.saveToFile(invoiceRequest.id()+".pdf", FileFormat.PDF);
         return new ResponseEntity<>("http://localhost:8080/api/v1/invoice/view/"+invoiceRequest.id(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/view/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @ResponseBody
-    public byte[] viewInvoice(@PathVariable String filename) throws IOException {
+    @GetMapping(value = "/view/{invoice}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<Object> viewInvoice(@PathVariable String invoice)  {
         String projectPath = System.getProperty("user.dir");
-        File file = new File(projectPath+"\\"+filename+".pdf");
-        InputStream inputStream = new FileInputStream(file);
-        return IOUtils.toByteArray(inputStream);
+        File file = new File(projectPath+"\\"+invoice+".pdf");
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+            return new ResponseEntity<>(IOUtils.toByteArray(inputStream),HttpStatus.OK);
+        } catch (FileNotFoundException e) {
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private static void writeDataToDocument(Document doc, String[][] purchaseData) {
