@@ -1,0 +1,75 @@
+package com.invoice.model;
+
+import java.util.ArrayList;
+
+ public record InvoiceRequest(
+         String id,
+         String invoiceNumber,
+         String accountCountry,
+         String accountName,
+         Object accountTaxIds,
+         int amountDue,
+         int amountPaid,
+         int amountRemaining,
+         int amountShipping,
+         String billingReason,
+         Object charge,
+         String collectionMethod,
+         int created,
+         String currency,
+         Object customFields,
+         String customer,
+         String customerAddress,
+         String customerCountry,
+         String customerCity,
+         String customerEmail,
+         String customerName,
+         String customerPhone,
+         String customerShipping,
+         String customerTaxExempt,
+         String customerTaxId,
+         Object defaultPaymentMethod,
+         String defaultTaxRate,
+         Object description,
+         Object discount,
+         Object dueDate,
+         Object endingBalance,
+         Lines lines,
+         String fromInvoice,
+         Object invoiceLink,
+         Object invoicePdf,
+
+         int periodEnd,
+         int periodStart,
+         int postPaymentCreditNotesAmount,
+         int prePaymentCreditNotesAmount,
+         Object quote,
+         Object receiptNumber,
+         Object renderingOptions,
+         String shippingCost,
+         String shippingDetailAddress,
+         String shippingDetailPhone,
+         int startingBalance,
+         String statementDescriptor,
+         String status,
+
+         int subtotal,
+         int subtotalExcludingTax,
+         String tax,
+         Object testClock,
+         int total,
+         ArrayList<String> totalDiscountAmounts,
+         int totalExcludingTax,
+         ArrayList<String> totalTaxAmounts,
+         Object transfer_data,
+         int webhooks_delivered_at){}
+
+record Lines(
+    String object,
+    ArrayList<PaymentItem> items,
+    boolean hasMore,
+    int totalCount,
+    String url
+){}
+
+record PaymentItem(String item, String description, int quantity, String price){}
